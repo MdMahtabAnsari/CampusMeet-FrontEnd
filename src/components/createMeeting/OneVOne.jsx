@@ -1,206 +1,195 @@
-import React, { useState } from 'react';
-
-const participantsList = [
-  'Alice Johnson',
-  'Bob Smith',
-  'Charlie Brown',
-  'Diana Prince',
-  'Evan Green',
-  'Frank White',
-  'Grace Lee',
-  'Hannah Adams',
-  'Ian Miller',
-  'Jack Taylor',
-  'Kelly Walker',
-  'Laura Harris',
-  'Mike Evans',
-  'Nina Scott',
-  'Oscar Thomas',
-  'Paul Nelson',
-  'Quinn Adams',
-  'Rita Hall',
-  'Steve Clark',
-  'Tina Young',
-  'Ursula Wright',
-  'Victor King',
-  'Wendy Martinez',
-  'Xander Robinson',
-  'Yvonne Lewis',
-  'Zachary Harris'
-];
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getFriends } from "../../store/slices/friendSlice";
+import { createMeeting } from "../../store/slices/creatorMeetingSlice";
 
 const OneVOne = () => {
-  const [formData, setFormData] = useState({
-    meetingName: '',
-    description: '',
-    participants: '',
-    meetingDate: '',
-    startTime: '',
-    endTime: ''
-  });
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [selectedParticipant, setSelectedParticipant] = useState(null);
+  const [availableParticipants, setAvailableParticipants] = useState([]);
+  const [search, setSearch] = useState("");
+  const [date, setDate] = useState("");
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
+  const dispatch = useDispatch();
+  const friends = useSelector((state) => state.friends.friends);
+  const [isLoading, setLoading] = useState(true);
 
-  const [searchTerm, setSearchTerm] = useState('');
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
-  const filteredParticipants = participantsList.filter(participant =>
-    participant.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
-  };
-
-  const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
-    setIsDropdownOpen(true); // Open the dropdown when typing
-  };
-
-  const handleSelect = (participant) => {
-    setFormData({
-      ...formData,
-      participants: participant
-    });
-    setSearchTerm(participant);
-    setIsDropdownOpen(false); // Close the dropdown after selecting
-  };
-
-  const handleClickOutside = (e) => {
-    if (!e.target.closest('.dropdown')) {
-      setIsDropdownOpen(false);
+  useEffect(() => {
+    async function fetchFriends() {
+      try {
+        await dispatch(getFriends());
+        setAvailableParticipants(friends);
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
     }
-  };
 
-  React.useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
+    fetchFriends();
   }, []);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission
-    console.log('Form submitted:', formData);
+  const selectParticipant = (participant) => {
+    setSelectedParticipant(participant);
+    setAvailableParticipants(
+      availableParticipants.filter((p) => p._id !== participant._id)
+    );
   };
 
+  const removeParticipant = () => {
+    setAvailableParticipants([...availableParticipants, selectedParticipant]);
+    setSelectedParticipant(null);
+  };
+
+  const filteredParticipants = availableParticipants.filter(
+    (participant) =>
+      participant.name.toLowerCase().includes(search.toLowerCase()) ||
+      participant.email.toLowerCase().includes(search.toLowerCase()) ||
+      participant.phone.includes(search)
+  );
+
+  const handleCreateMeeting = async () => {
+    const data = {
+      title: title,
+      description: description,
+      type: "1V1",
+      participants: [selectedParticipant._id],
+      date: date,
+      startTime: startTime,
+      endTime: endTime,
+    };
+
+    try {
+      await dispatch(createMeeting(data));
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100 p-4">
-      <div className="max-w-lg w-full p-6 border rounded-lg shadow-lg bg-white">
-        <h2 className="text-2xl font-semibold mb-4 text-center">Meeting Form</h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label htmlFor="meetingName" className="block text-sm font-medium text-gray-700">Meeting Name</label>
+    <>
+      {!isLoading && (
+        <div className="max-w-lg mx-auto p-6 bg-white shadow-md rounded-lg">
+          <h2 className="text-2xl font-bold mb-4">
+            Create a One vs One Meeting
+          </h2>
+
+          <div className="mb-4">
+            <label className="block text-gray-700">Title</label>
             <input
               type="text"
-              id="meetingName"
-              name="meetingName"
-              value={formData.meetingName}
-              onChange={handleChange}
-              className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm"
-              required
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className="w-full p-2 border border-gray-300 rounded-md"
             />
           </div>
 
-          <div>
-            <label htmlFor="description" className="block text-sm font-medium text-gray-700">Description</label>
+          <div className="mb-4">
+            <label className="block text-gray-700">Description</label>
             <textarea
-              id="description"
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              rows="4"
-              className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm"
-              placeholder="Add a brief description..."
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className="w-full p-2 border border-gray-300 rounded-md"
             />
           </div>
 
-          <div className="relative dropdown">
-            <label htmlFor="participants" className="block text-sm font-medium text-gray-700">Participants</label>
-            <input
-              type="text"
-              id="search"
-              placeholder="Search participants..."
-              value={searchTerm}
-              onChange={handleSearchChange}
-              className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm"
-              onClick={() => setIsDropdownOpen(true)}
-            />
-            {isDropdownOpen && (
-              <div className="absolute z-10 mt-1 w-full max-h-60 overflow-y-auto bg-white border rounded-md shadow-lg">
-                {filteredParticipants.length > 0 ? (
-                  filteredParticipants.map(participant => (
-                    <div
-                      key={participant}
-                      className="px-3 py-2 cursor-pointer hover:bg-gray-200"
-                      onClick={() => handleSelect(participant)}
-                    >
-                      {participant}
-                    </div>
-                  ))
-                ) : (
-                  <div className="px-3 py-2 text-gray-500">No participants found</div>
-                )}
+          <div className="mb-4">
+            <label className="block text-gray-700">Participant</label>
+            {selectedParticipant ? (
+              <div className="flex justify-between items-center border border-gray-300 rounded-md p-2 mb-2">
+                <div className="flex items-center">
+                  <img
+                    src={selectedParticipant.image}
+                    alt={selectedParticipant.name}
+                    className="w-8 h-8 rounded-full mr-2"
+                  />
+                  <span>
+                    {selectedParticipant.name} ({selectedParticipant.email})
+                  </span>
+                </div>
+                <button className="text-red-500" onClick={removeParticipant}>
+                  Remove
+                </button>
               </div>
+            ) : (
+              <>
+                <input
+                  type="text"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder="Search by name, email, or phone"
+                  className="w-full p-2 mb-2 border border-gray-300 rounded-md"
+                />
+                <div className="border border-gray-300 rounded-md max-h-40 overflow-y-auto">
+                  {filteredParticipants.map((participant) => (
+                    <div
+                      key={participant._id}
+                      className="flex justify-between items-center p-2 hover:bg-gray-100 cursor-pointer"
+                      onClick={() => selectParticipant(participant)}
+                    >
+                      <img
+                        src={participant.image}
+                        alt={participant.name}
+                        className="w-8 h-8 rounded-full mr-2"
+                      />
+                      <span>
+                        {participant.name} ({participant.email})
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </>
             )}
           </div>
 
-          <div>
-            <label htmlFor="meetingDate" className="block text-sm font-medium text-gray-700">Meeting Date (DD/MM/YYYY)</label>
+          <div className="mb-4">
+            <label className="block text-gray-700">Date</label>
             <input
               type="text"
-              id="meetingDate"
-              name="meetingDate"
-              value={formData.meetingDate}
-              onChange={handleChange}
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
               placeholder="DD/MM/YYYY"
-              className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm"
-              required
+              className="w-full p-2 border border-gray-300 rounded-md"
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label htmlFor="startTime" className="block text-sm font-medium text-gray-700">Start Time (HH MM AM/PM)</label>
-              <input
-                type="text"
-                id="startTime"
-                name="startTime"
-                value={formData.startTime}
-                onChange={handleChange}
-                placeholder="HH MM AM/PM"
-                className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm"
-                required
-              />
-            </div>
+          <div className="mb-4">
+            <label className="block text-gray-700">Start Time</label>
+            <input
+              type="text"
+              value={startTime}
+              onChange={(e) => setStartTime(e.target.value)}
+              placeholder="HH:MM AM/PM"
+              className="w-full p-2 border border-gray-300 rounded-md"
+            />
+          </div>
 
-            <div>
-              <label htmlFor="endTime" className="block text-sm font-medium text-gray-700">End Time (HH MM AM/PM)</label>
-              <input
-                type="text"
-                id="endTime"
-                name="endTime"
-                value={formData.endTime}
-                onChange={handleChange}
-                placeholder="HH MM AM/PM"
-                className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm"
-                required
-              />
-            </div>
+          <div className="mb-4">
+            <label className="block text-gray-700">End Time</label>
+            <input
+              type="text"
+              value={endTime}
+              onChange={(e) => setEndTime(e.target.value)}
+              placeholder="HH:MM AM/PM"
+              className="w-full p-2 border border-gray-300 rounded-md"
+            />
           </div>
 
           <button
-            type="submit"
-            className="w-full py-2 px-4 bg-blue-500 text-white font-semibold rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-2 bg-blue-500 text-white rounded-md"
+            onClick={handleCreateMeeting}
           >
-            Submit
+            Create Meeting
           </button>
-        </form>
-      </div>
-    </div>
+        </div>
+      )}
+      {isLoading && (
+        <div className="max-w-lg mx-auto p-6 bg-white shadow-md rounded-lg text-center">
+          Loading...
+        </div>
+      )}
+    </>
   );
 };
 

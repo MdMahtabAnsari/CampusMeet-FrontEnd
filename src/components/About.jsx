@@ -1,5 +1,3 @@
-import React from 'react';
-
 const About = () => {
   return (
     <section className="bg-white py-16">
@@ -9,7 +7,8 @@ const About = () => {
             About <span className="text-blue-600">CampsMeet</span>
           </h2>
           <p className="text-lg sm:text-xl text-gray-700">
-            Connecting students across the globe to foster collaboration, innovation, and learning.
+            Connecting students across the globe to foster collaboration,
+            innovation, and learning.
           </p>
         </div>
 
@@ -32,9 +31,12 @@ const About = () => {
                 ></path>
               </svg>
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-4">Our Vision</h3>
+            <h3 className="text-xl font-semibold text-gray-900 mb-4">
+              Our Vision
+            </h3>
             <p className="text-gray-700">
-              To create a world where students from all backgrounds can connect, collaborate, and grow together.
+              To create a world where students from all backgrounds can connect,
+              collaborate, and grow together.
             </p>
           </div>
 
@@ -56,9 +58,12 @@ const About = () => {
                 ></path>
               </svg>
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-4">Our Mission</h3>
+            <h3 className="text-xl font-semibold text-gray-900 mb-4">
+              Our Mission
+            </h3>
             <p className="text-gray-700">
-              To empower students with the tools and networks they need to succeed in an interconnected world.
+              To empower students with the tools and networks they need to
+              succeed in an interconnected world.
             </p>
           </div>
 
@@ -80,9 +85,12 @@ const About = () => {
                 ></path>
               </svg>
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-4">Our Values</h3>
+            <h3 className="text-xl font-semibold text-gray-900 mb-4">
+              Our Values
+            </h3>
             <p className="text-gray-700">
-              Collaboration, inclusivity, and innovation are at the heart of everything we do.
+              Collaboration, inclusivity, and innovation are at the heart of
+              everything we do.
             </p>
           </div>
         </div>

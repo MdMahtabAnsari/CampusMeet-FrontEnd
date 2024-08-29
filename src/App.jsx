@@ -14,7 +14,8 @@ import OneVManyPage from "./pages/createMeetings/OneVManyPage"
 import OneVOnePage from "./pages/createMeetings/OneVOnePage"
 import FriendPage from "./pages/friend/FriendPage"
 import CreatorJoin from "./pages/meetingJoin/CreatorJoin"
-
+import EditOneVManyPage from "./pages/editMeetings/OneVMany"
+import EditOneVOnePage from "./pages/editMeetings/OneVOne"
 
 function App() {
 
@@ -37,7 +38,8 @@ function App() {
         <Route path="/meetings/create/one-v-one" element={<OneVOnePage />} />
         <Route path="/meetings/create/one-v-many" element={<OneVManyPage />} />
         <Route path="/meetings/creator/join/:meetingId" element={<CreatorJoin />} />
-        
+        <Route path="/meetings/edit/one-v-one/:meetingId" element={<EditOneVOnePage />} />
+        <Route path="/meetings/edit/one-v-many/:meetingId" element={<EditOneVManyPage />} />        
         {/* for password reset */}
         <Route path="/auth/forgot-password" element={<Email />} />
         <Route path="/auth/forgot-password/otp" element={<Otp />} />

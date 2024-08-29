@@ -1,5 +1,4 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   return (
@@ -12,7 +11,9 @@ const Hero = () => {
               Welcome to <span className="text-blue-600">CampsMeet</span>
             </h1>
             <p className="text-lg sm:text-xl text-gray-700 mb-8">
-              A place where students around the world can connect, collaborate, and grow together. Let’s build bridges, share knowledge, and create opportunities.
+              A place where students around the world can connect, collaborate,
+              and grow together. Let’s build bridges, share knowledge, and
+              create opportunities.
             </p>
             <div className="flex justify-center lg:justify-start space-x-4">
               <Link
@@ -29,7 +30,7 @@ const Hero = () => {
               </Link>
             </div>
           </div>
-          
+
           {/* Image */}
           <div className="mt-12 lg:mt-0 lg:ml-10">
             <img

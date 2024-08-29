@@ -45,55 +45,64 @@ const Friend = () => {
 
   return (
     <>
-      {!isLoading && !error && (
-        <div className="min-h-screen bg-gray-100 p-6">
-          <h1 className="text-3xl font-bold text-gray-800 mb-8">Friends List</h1>
+      {!isLoading && (
+        <div className="min-h-screen bg-gray-100 p-4 sm:p-6">
+          <h1 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">
+            Add Friends
+          </h1>
           {currentFriends?.length > 0 ? (
-            <div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {currentFriends.map((friend) => (
-                  <div
-                    key={friend._id}
-                    className="bg-white shadow-md rounded-lg p-4 flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4"
-                  >
-                    <img
-                      src={friend.image}
-                      alt={friend.name}
-                      className="w-16 h-16 rounded-full object-cover"
-                    />
-                    <div className="flex-1">
-                      <h3 className="text-lg font-medium text-gray-800">{friend.name}</h3>
-                      <p className="text-gray-600">{friend.email}</p>
-                      <p className="text-gray-600">{friend.phone}</p>
-                    </div>
-                    <button
-                      onClick={() => handleUnfriend(friend._id)}
-                      className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
-                    >
-                      Unfriend
-                    </button>
+            currentFriends.map((request) => (
+              <div
+                key={request._id}
+                className="p-3 sm:p-4 bg-white rounded shadow-md mb-4 flex flex-col sm:flex-row justify-between items-center"
+              >
+                <div className="flex items-center mb-4 sm:mb-0">
+                  <img
+                    src={request.image}
+                    alt={request.name}
+                    className="w-12 h-12 sm:w-12 sm:h-12 rounded-full mr-4"
+                  />
+                  <div>
+                    <h2 className="text-base sm:text-lg font-semibold">
+                      {request.name}
+                    </h2>
+                    <p className="text-sm text-gray-500">{request.email}</p>
+                    <p className="text-sm text-gray-500">{request.phone}</p>
                   </div>
-                ))}
+                </div>
+                <div className="flex space-x-4">
+                  <button
+                    className="text-red-500 font-semibold hover:underline"
+                    onClick={() => handleUnfriend(request._id)}
+                  >
+                    Unfriend
+                  </button>
+                </div>
               </div>
-              {pageCount>1&&(<ReactPaginate
-                previousLabel={"← Previous"}
-                nextLabel={"Next →"}
-                breakLabel={"..."}
-                pageCount={pageCount}
-                marginPagesDisplayed={2}
-                pageRangeDisplayed={3}
-                onPageChange={handlePageClick}
-                containerClassName={"flex justify-center mt-8"}
-                pageClassName={"mx-1"}
-                pageLinkClassName={"px-4 py-2 border border-gray-300 rounded-lg text-gray-800 hover:bg-gray-200"}
-                previousLinkClassName={"px-4 py-2 border border-gray-300 rounded-lg text-gray-800 hover:bg-gray-200"}
-                nextLinkClassName={"px-4 py-2 border border-gray-300 rounded-lg text-gray-800 hover:bg-gray-200"}
-                breakLinkClassName={"px-4 py-2 border border-gray-300 rounded-lg text-gray-800 hover:bg-gray-200"}
-                activeClassName={"bg-blue-500 text-white"}
-              />)}
-            </div>
+            ))
           ) : (
-            <p className="text-gray-500">No friends available.</p>
+            <p className="text-gray-500">No friend found.</p>
+          )}
+
+          {pageCount > 1 && (
+            <ReactPaginate
+              previousLabel={"Previous"}
+              nextLabel={"Next"}
+              breakLabel={"..."}
+              breakClassName={"break-me"}
+              pageCount={pageCount}
+              marginPagesDisplayed={2}
+              pageRangeDisplayed={3}
+              onPageChange={handlePageClick}
+              containerClassName={"pagination flex justify-center mt-4"}
+              activeClassName={
+                "active bg-blue-500 text-white px-3 py-1 rounded"
+              }
+              pageClassName={"px-3 py-1 cursor-pointer"}
+              previousClassName={"px-3 py-1 cursor-pointer"}
+              nextClassName={"px-3 py-1 cursor-pointer"}
+              disabledClassName={"text-gray-500 cursor-not-allowed"}
+            />
           )}
         </div>
       )}
