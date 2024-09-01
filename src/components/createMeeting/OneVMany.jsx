@@ -43,7 +43,8 @@ const OneVMany = () => {
     setParticipants(participants.filter((p) => p._id !== id));
   };
 
-  const filteredParticipants = availableParticipants.filter((participant) =>
+  const filteredParticipants = availableParticipants.filter(
+    (participant) =>
       participant.name.toLowerCase().includes(search.toLowerCase()) ||
       participant.email.toLowerCase().includes(search.toLowerCase()) ||
       participant.phone.includes(search)
@@ -60,10 +61,10 @@ const OneVMany = () => {
       endTime: endTime,
     };
     try {
-     
       const response = await dispatch(createMeeting(data));
-      if(response?.payload?.data){
-        console.log("Meeting created successfully")
+      if (response?.payload?.data) {
+        console.log("Meeting created successfully");
+      }
     } catch (error) {
       console.log(error);
     }

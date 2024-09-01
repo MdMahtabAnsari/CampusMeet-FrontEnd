@@ -11,7 +11,7 @@ const initialState = {
 };
 
 export const getUpcomingMeetings = createAsyncThunk(
-  "/meeting/upcoming",
+  "/meetings/creator/upcoming",
   async () => {
     try {
       toast.info("Fetching upcoming meetings...");
@@ -27,7 +27,7 @@ export const getUpcomingMeetings = createAsyncThunk(
 );
 
 export const getCancelledMeetings = createAsyncThunk(
-  "/meeting/cancelled",
+  "/meetings/creator/cancelled",
   async () => {
     try {
       toast.info("Fetching cancelled meetings...");
@@ -43,7 +43,7 @@ export const getCancelledMeetings = createAsyncThunk(
 );
 
 export const getInProgressMeetings = createAsyncThunk(
-  "/meeting/inProgress",
+  "/meetings/creator/inProgress",
   async () => {
     try {
       toast.info("Fetching in progress meetings...");
@@ -59,7 +59,7 @@ export const getInProgressMeetings = createAsyncThunk(
 );
 
 export const getCompletedMeetings = createAsyncThunk(
-  "/meeting/completed",
+  "/meetings/creator/completed",
   async () => {
     try {
       toast.info("Fetching completed meetings...");
@@ -76,11 +76,11 @@ export const getCompletedMeetings = createAsyncThunk(
 );
 
 export const cancelMeeting = createAsyncThunk(
-  "/meeting/cancel",
+  "/meeting/update-status/cancelled",
   async (meetingId) => {
     try {
       toast.info("Cancelling meeting...");
-      const response = await instance.delete(
+      const response = await instance.put(
         `/meetings/update-status/cancelled/${meetingId}`
       );
       toast.success("Meeting cancelled successfully");
@@ -94,7 +94,7 @@ export const cancelMeeting = createAsyncThunk(
 );
 
 export const completeMeeting = createAsyncThunk(
-  "/meeting/complete",
+  "/meeting/update-status/complete",
   async (meetingId) => {
     try {
       toast.info("Completing meeting...");
@@ -112,7 +112,7 @@ export const completeMeeting = createAsyncThunk(
 );
 
 export const jointMeeting = createAsyncThunk(
-  "/meeting/start",
+  "/meetings/creator/join",
   async (meetingId) => {
     try {
       toast.info("Starting meeting...");

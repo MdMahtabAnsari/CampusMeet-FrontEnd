@@ -22,7 +22,7 @@ const FriendRequest = () => {
     fetchData();
   }, [dispatch]);
 
-  const ITEMS_PER_PAGE = 4; // Number of items to display per page
+  const ITEMS_PER_PAGE = 10; // Number of items to display per page
   const [currentPage, setCurrentPage] = useState(0);
 
   // Calculate the current items based on the page

@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getUpcomingMeetings } from "../../store/slices/creatorMeetingSlice";
+import { getUpcomingMeetings,cancelMeeting,jointMeeting } from "../../store/slices/creatorMeetingSlice";
 import ReactPaginate from "react-paginate";
-
-const ITEMS_PER_PAGE = 5;
+import { useNavigate } from "react-router-dom";
 
 const UpcomingMeeting = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -13,6 +12,7 @@ const UpcomingMeeting = () => {
   const meetings = useSelector(
     (state) => state.creatorMeeting.upcomingMeetings
   );
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchData() {
@@ -27,13 +27,48 @@ const UpcomingMeeting = () => {
     fetchData();
   }, [dispatch]);
 
+  const ITEMS_PER_PAGE = 10;
+  const offset = currentPage * ITEMS_PER_PAGE;
+  const currentMeetings = meetings.slice(offset, offset + ITEMS_PER_PAGE);
+  const pageCount = Math.ceil(meetings.length / ITEMS_PER_PAGE);
+  
+  
   const handlePageClick = ({ selected }) => {
     setCurrentPage(selected);
   };
 
-  const offset = currentPage * ITEMS_PER_PAGE;
-  const currentMeetings = meetings.slice(offset, offset + ITEMS_PER_PAGE);
-  const pageCount = Math.ceil(meetings.length / ITEMS_PER_PAGE);
+  const handleEditMeeting = (id,type) => {
+    if(type==="Group"){
+      navigate(`/meetings/edit/one-v-many/${id}`);
+    }
+    else if(type==="1V1"){
+      navigate(`/meetings/edit/one-v-one/${id}`);
+    }
+   
+  }
+
+  const handleCancelMeeting = async(id) => {
+    try{
+      await dispatch(cancelMeeting(id));
+    }
+    catch(err){
+      setError(err);
+    }
+  }
+
+  const handleJoin = async (meetingId) => {
+    try {
+      const response = await dispatch(jointMeeting(meetingId));
+      if (response.payload?.success) {
+        navigate(`/meetings/join/${meetingId}`);
+        console.log("Join meeting");
+      } else {
+        setError(response.payload?.message);
+      }
+    } catch (err) {
+      setError(err);
+    }
+  }
 
   return (
     <>
@@ -87,13 +122,13 @@ const UpcomingMeeting = () => {
                     <strong>End Time:</strong> {meeting.endTime}
                   </p>
                   <div className="flex space-x-2 mt-4">
-                    <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500" onClick={()=>handleJoin(meeting._id)}>
                       Join
                     </button>
-                    <button className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500">
+                    <button className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500" onClick={()=>handleEditMeeting(meeting?._id,meeting?.type)}>
                       Edit
                     </button>
-                    <button className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500">
+                    <button className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500" onClick={()=>handleCancelMeeting(meeting._id)}>
                       Cancel
                     </button>
                   </div>

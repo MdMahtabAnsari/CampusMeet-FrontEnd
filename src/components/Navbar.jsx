@@ -6,10 +6,13 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { logout } from "../store/slices/authSlice";
 import { useNavigate } from "react-router-dom";
+import { updateUserData } from "../store/slices/authSlice";
+import socket from "../api/socketIoClient";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { isLoggedIn, user } = useSelector((state) => state.auth);
+  const { isConnected } = useSelector((state) => state.socket);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -24,12 +27,15 @@ const Navbar = () => {
   };
   // can yo make changes here that when user state change is should be updated in the navbar
   useEffect(() => {
-    if (isLoggedIn) {
-      console.log("User is logged in");
-    } else {
-      console.log("User is logged out");
+    if (isConnected) {
+      socket.on("updatedProfile", (data) => {
+        dispatch(updateUserData(data));
+      });
     }
-  }, [isLoggedIn]);
+    return () => {
+      socket.off("updatedProfile");
+    };
+  });
 
   return (
     <nav className="bg-white shadow-md sticky top-0 z-50">

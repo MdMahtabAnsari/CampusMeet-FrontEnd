@@ -1,20 +1,17 @@
-import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import Navbar from '../components/Navbar';
-import { logout } from '../store/slices/authSlice';
-import { updateUser } from '../store/slices/userSlice';
-
-
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import Navbar from "../components/Navbar";
+import { updateUser } from "../store/slices/userSlice";
 
 const ProfilePage = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [imagePreview, setImagePreview] = useState(null);
   const [userData, setUserData] = useState({
     image: null,
-    name: '',
-    email: '',
-    phone: '',
+    name: "",
+    email: "",
+    phone: "",
   });
 
   const { isLoggedIn, user } = useSelector((state) => state.auth);
@@ -23,7 +20,7 @@ const ProfilePage = () => {
 
   useEffect(() => {
     if (!isLoggedIn) {
-      navigate('/auth/login');
+      navigate("/auth/login");
     } else if (user) {
       setUserData({
         image: user.image,
@@ -61,22 +58,20 @@ const ProfilePage = () => {
 
   const handleSaveClick = async () => {
     const formData = new FormData();
-    formData.append('name', userData.name);
-    formData.append('email', userData.email);
-    formData.append('phone', userData.phone);
+    formData.append("name", userData.name);
+    formData.append("email", userData.email);
+    formData.append("phone", userData.phone);
     if (userData.image) {
-      formData.append('image', userData.image);
+      formData.append("image", userData.image);
     }
-    const response = await dispatch(updateUser(formData));
-    if (response?.payload?.success) {
-      await dispatch(logout());
+    try {
+      await dispatch(updateUser(formData));
 
+      setIsEditing(false);
+    } catch (err) {
+      console.error(err);
     }
-    else{
-      await dispatch(logout());
-    }
-}
-  
+  };
 
   return (
     <>
@@ -103,7 +98,7 @@ const ProfilePage = () => {
               </>
             ) : (
               <img
-                src={imagePreview } // Default image if none is set
+                src={imagePreview} // Default image if none is set
                 alt="User"
                 className="w-32 h-32 rounded-full border-4 border-gray-300 mb-6"
               />

@@ -10,7 +10,7 @@ function AddFriends() {
     const nonFriends = useSelector((state) => state.friends.nonFriends);
 
     const [currentPage, setCurrentPage] = useState(0);
-    const itemsPerPage = 5;
+    const itemsPerPage = 10;
 
     useEffect(() => {
         async function fetchData() {
