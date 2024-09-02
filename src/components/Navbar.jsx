@@ -25,7 +25,8 @@ const Navbar = () => {
       console.log("Error logging out");
     }
   };
-  // can yo make changes here that when user state change is should be updated in the navbar
+
+  // Update navbar when user state changes
   useEffect(() => {
     if (isConnected) {
       socket.on("updatedProfile", (data) => {
@@ -35,7 +36,7 @@ const Navbar = () => {
     return () => {
       socket.off("updatedProfile");
     };
-  });
+  }, [isConnected, dispatch]);
 
   return (
     <nav className="bg-white shadow-md sticky top-0 z-50">
@@ -81,12 +82,18 @@ const Navbar = () => {
               </>
             ) : (
               <>
-                <button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
-                  <Link to="/auth/login">Login</Link>
-                </button>
-                <button className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">
-                  <Link to="/auth/signup">Signup</Link>
-                </button>
+                <Link
+                  to="/auth/login"
+                  className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 text-center"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/auth/signup"
+                  className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 text-center"
+                >
+                  Signup
+                </Link>
               </>
             )}
           </div>
@@ -149,12 +156,18 @@ const Navbar = () => {
             </>
           ) : (
             <>
-              <button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
-                <Link to="/auth/login">Login</Link>
-              </button>
-              <button className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">
-                <Link to="/auth/signup">Signup</Link>
-              </button>
+              <Link
+                to="/auth/login"
+                className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 text-center"
+              >
+                Login
+              </Link>
+              <Link
+                to="/auth/signup"
+                className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 text-center"
+              >
+                Signup
+              </Link>
             </>
           )}
         </div>
