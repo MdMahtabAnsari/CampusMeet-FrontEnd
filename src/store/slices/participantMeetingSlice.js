@@ -86,7 +86,7 @@ export const jointMeeting = createAsyncThunk(
     async (meetingId) => {
         try{
             toast.info("Joining Meeting...");
-            const response = await instance.post(`meetings/participants/join/${meetingId}`);
+            const response = await instance.get(`meetings/participants/join/${meetingId}`);
             toast.success("Meeting Joined Successfully");
             return response.data;
         }
@@ -97,6 +97,24 @@ export const jointMeeting = createAsyncThunk(
         }
     }
 );
+
+export const getMeetingByIdAndStatus = createAsyncThunk(
+    "/meeting/getByIdAndStatus",
+    async ({ meetingId, status }) => {
+      try {
+        toast.info("Fetching meeting...");
+        const response = await instance.get(
+          `/meetings/participant/${status}/${meetingId}`
+        );
+        toast.success("Meeting fetched successfully");
+        return response.data;
+      } catch (error) {
+        toast.error(error?.response?.data?.message);
+        console.log(error?.response?.data);
+        throw error?.response?.data;
+      }
+    }
+  );
 
 const participantMeetingSlice = createSlice({
     name: "participantMeeting",

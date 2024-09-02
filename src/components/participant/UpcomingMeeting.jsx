@@ -24,7 +24,7 @@ const UpcomingMeeting = () => {
       }
     }
     fetchData();
-  }, [dispatch]);
+  }, []);
 
   const ITEMS_PER_PAGE = 10;
   const offset = currentPage * ITEMS_PER_PAGE;

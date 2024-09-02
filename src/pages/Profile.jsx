@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { updateUser } from "../store/slices/userSlice";
+import { updateUserData } from "../store/slices/authSlice";
 
 const ProfilePage = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -65,7 +66,10 @@ const ProfilePage = () => {
       formData.append("image", userData.image);
     }
     try {
-      await dispatch(updateUser(formData));
+      const response = await dispatch(updateUser(formData));
+      if (response.payload?.success) {
+        dispatch(updateUserData(response.payload.data));
+      }
 
       setIsEditing(false);
     } catch (err) {

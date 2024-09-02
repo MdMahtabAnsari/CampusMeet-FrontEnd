@@ -198,74 +198,43 @@ export const getMeetingById = createAsyncThunk(
   }
 );
 
-
 const creatorMeetingSlice = createSlice({
   name: "creatorMeeting",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getUpcomingMeetings.fulfilled, (state, action) => {
-      if (action.payload.success) {
+      if (action.payload?.success) {
         state.upcomingMeetings = action.payload?.data;
       }
     });
     builder.addCase(getCancelledMeetings.fulfilled, (state, action) => {
-      if (action.payload.success) {
+      if (action.payload?.success) {
         state.cancelledMeetings = action.payload?.data;
       }
     });
     builder.addCase(getInProgressMeetings.fulfilled, (state, action) => {
-      if (action.payload.success) {
+      if (action.payload?.success) {
         state.inProgressMeetings = action.payload?.data;
       }
     });
     builder.addCase(getCompletedMeetings.fulfilled, (state, action) => {
-      if (action.payload.success) {
+      if (action.payload?.success) {
         state.completedMeetings = action.payload?.data;
       }
     });
     builder.addCase(cancelMeeting.fulfilled, (state, action) => {
-      if (action.payload.success) {
+      if (action.payload?.success) {
         state.upcomingMeetings = state.upcomingMeetings.filter(
           (meeting) => meeting._id !== action.payload?.data?._id
         );
-        state.cancelledMeetings.push(action.payload?.data);
       }
     });
     builder.addCase(completeMeeting.fulfilled, (state, action) => {
-      if (action.payload.success) {
+      if (action.payload?.success) {
         state.inProgressMeetings = state.inProgressMeetings.filter(
           (meeting) => meeting._id !== action.payload?.data?._id
         );
-        state.completedMeetings.push(action.payload?.data);
-      }
-    });
-    builder.addCase(jointMeeting.fulfilled, (state, action) => {
-      if (action.payload.success) {
-        state.upcomingMeetings = state.upcomingMeetings.filter(
-          (meeting) => meeting._id !== action.payload?.data?._id
-        );
-        if (
-          !state.inProgressMeetings.some(
-            (m) => m._id === action.payload.data._id
-          )
-        ) {
-          state.inProgressMeetings.push(action.payload.data);
-        }
-      }
-    });
-    builder.addCase(updateMeeting.fulfilled, (state, action) => {
-      if (action.payload.success) {
-        state.upcomingMeetings = state.upcomingMeetings.map((meeting) =>
-          meeting._id === action.payload?.data?._id
-            ? action.payload?.data
-            : meeting
-        );
-      }
-    });
-    builder.addCase(createMeeting.fulfilled, (state, action) => {
-      if (action.payload.success) {
-        state.upcomingMeetings.push(action.payload?.data);
       }
     });
   },

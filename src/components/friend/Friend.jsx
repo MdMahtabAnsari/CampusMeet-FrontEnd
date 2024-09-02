@@ -24,7 +24,7 @@ const Friend = () => {
       }
     }
     fetchData();
-  }, [friendsLength, dispatch]);
+  }, []);
 
   const handleUnfriend = async (_id) => {
     try {

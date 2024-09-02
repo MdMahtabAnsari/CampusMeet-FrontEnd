@@ -25,7 +25,7 @@ const CompletedMeeting = () => {
       }
     };
     fetchData();
-  }, [dispatch]);
+  }, []);
 
   const [currentPage, setCurrentPage] = useState(0);
   const meetingsPerPage = 10;
@@ -51,7 +51,7 @@ const CompletedMeeting = () => {
           {meetings.length === 0 && (
             <p className="text-gray-700">No completed meetings found</p>
           )}
-          {meetings.length > 0 && (
+          {meetings?.length > 0 && (
             <div className="space-y-4">
               {currentMeetings?.map((meeting) => (
                 <div

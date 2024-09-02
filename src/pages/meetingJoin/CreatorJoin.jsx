@@ -4,9 +4,9 @@ import { useParams, useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { getMeetingByIdAndStatus } from "../../store/slices/creatorMeetingSlice";
 
-function Join() {
+function CreatorJoin() {
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+ 
   const [meeting, setMeeting] = useState(null);
   const { meetingId } = useParams();
   const navigate = useNavigate();
@@ -22,11 +22,11 @@ function Join() {
         if (response.payload?.success) {
           setMeeting(response.payload?.data);
         } else {
-          navigate("/meeting/in-progress");
+          navigate("/status/creator");
         }
         setIsLoading(false);
       } catch (err) {
-        setError(err);
+        console.log(err);
         setIsLoading(false);
       }
     };
@@ -75,7 +75,7 @@ function Join() {
                 iframeRef.style.width = "100%";
               }}
               onReadyToClose={() => {
-                navigate("/meeting/in-progress");
+                navigate("/status/creator");
               }}
             />
           </div>
@@ -86,13 +86,9 @@ function Join() {
           <p className="text-2xl">Loading...</p>
         </div>
       )}
-      {error && (
-        <div className="flex items-center justify-center h-screen">
-          <p className="text-2xl text-red-500">{error.toString()}</p>
-        </div>
-      )}
+      
     </>
   );
 }
 
-export default Join;
+export default CreatorJoin;

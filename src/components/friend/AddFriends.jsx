@@ -23,7 +23,7 @@ function AddFriends() {
             }
         }
         fetchData();
-    }, [dispatch]);
+    }, []);
 
     const handleSendRequest = async (_id) => {
         try {

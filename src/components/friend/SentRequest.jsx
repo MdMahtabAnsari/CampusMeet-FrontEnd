@@ -21,7 +21,7 @@ function SentRequest() {
             }
         };
         fetchData();
-    }, [dispatch]);
+    }, []);
 
     // Pagination state
     const [currentPage, setCurrentPage] = useState(0);

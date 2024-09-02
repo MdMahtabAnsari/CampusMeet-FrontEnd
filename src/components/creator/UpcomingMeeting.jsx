@@ -29,7 +29,7 @@ const UpcomingMeeting = () => {
       }
     }
     fetchData();
-  }, [dispatch]);
+  }, []);
 
   const ITEMS_PER_PAGE = 10;
   const offset = currentPage * ITEMS_PER_PAGE;
@@ -60,7 +60,7 @@ const UpcomingMeeting = () => {
     try {
       const response = await dispatch(jointMeeting(meetingId));
       if (response.payload?.success) {
-        navigate(`/meetings/join/${meetingId}`);
+        navigate(`/meetings/creator/join/${meetingId}`);
         console.log("Join meeting");
       }
     } catch (err) {

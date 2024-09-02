@@ -13,7 +13,8 @@ import NewPassword from "./pages/auth/forgotPassword/NewPassword";
 import OneVManyPage from "./pages/createMeetings/OneVManyPage";
 import OneVOnePage from "./pages/createMeetings/OneVOnePage";
 import FriendPage from "./pages/friend/FriendPage";
-import Join from "./pages/meetingJoin/Join";
+import CreatorJoin from "./pages/meetingJoin/CreatorJoin";
+import ParticipantJoin from "./pages/meetingJoin/ParticipantJoin";
 import EditOneVManyPage from "./pages/editMeetings/OneVMany";
 import EditOneVOnePage from "./pages/editMeetings/OneVOne";
 import { useEffect } from "react";
@@ -54,7 +55,8 @@ function App() {
         <Route path="/meetings" element={<MeetingDashboard />} />
         <Route path="/meetings/create/one-v-one" element={<OneVOnePage />} />
         <Route path="/meetings/create/one-v-many" element={<OneVManyPage />} />
-        <Route path="/meetings/join/:meetingId" element={<Join />} />
+        <Route path="/meetings/creator/join/:meetingId" element={<CreatorJoin />} />
+        <Route path="/meetings/participant/join/:meetingId" element={<ParticipantJoin />} />
         <Route
           path="/meetings/edit/one-v-one/:meetingId"
           element={<EditOneVOnePage />}

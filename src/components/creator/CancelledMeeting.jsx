@@ -22,7 +22,7 @@ const CancelledMeeting = () => {
       }
     };
     fetchData();
-  }, [dispatch]);
+  }, []);
 
   const [currentPage, setCurrentPage] = useState(0);
 

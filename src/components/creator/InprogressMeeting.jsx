@@ -25,7 +25,7 @@ const InprogressMeeting = () => {
       }
     };
     fetchData();
-  }, [dispatch]);
+  }, []);
 
 
   const ITEMS_PER_PAGE = 10;
@@ -53,7 +53,7 @@ const InprogressMeeting = () => {
     try {
       const response = await dispatch(jointMeeting(meetingId));
       if (response.payload?.success) {
-        navigate(`/meetings/join/${meetingId}`);
+        navigate(`/meetings/creator/join/${meetingId}`);
         console.log('Join meeting');
       }
       else {
@@ -71,7 +71,7 @@ const InprogressMeeting = () => {
       {!isLoading && (
         <div className="min-h-screen bg-gray-100 p-6">
           <h1 className="text-3xl font-bold mb-6">Inprogress Meetings</h1>
-          {meetings.length === 0 && (
+          {meetings?.length === 0 && (
             <p className="text-gray-700">No inprogress meetings found</p>
           )}
           {meetings?.length > 0 && (

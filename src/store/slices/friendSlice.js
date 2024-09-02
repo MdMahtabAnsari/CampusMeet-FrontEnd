@@ -179,7 +179,6 @@ const friendSlice = createSlice({
         builder.addCase(unfriend.fulfilled, (state, action) => {
             if(action?.payload?.success){
             state.friends = state.friends.filter((friend) => friend._id !== action?.payload?.data?._id);
-            state.nonFriends.push(action?.payload?.data);
             }
         });
         builder.addCase(getReceivedFriendRequests.fulfilled, (state, action) => {
@@ -189,7 +188,6 @@ const friendSlice = createSlice({
         });
         builder.addCase(sendFriendRequest.fulfilled, (state, action) => {
             if(action?.payload?.success){
-                state.sentFriendRequests.push(action.payload.data);
                 state.nonFriends = state.nonFriends.filter((friend) => friend._id !== action.payload?.data?.receiver);
             }
 
@@ -197,7 +195,7 @@ const friendSlice = createSlice({
         builder.addCase(cancelFriendRequest.fulfilled, (state, action) => {
             if(action?.payload?.success){
                 state.sentFriendRequests = state.sentFriendRequests.filter((request) => request._id !== action.payload.data.receiver);
-                state.nonFriends.push(action.payload?.data?.receiver);
+               
             }
         });
         builder.addCase(getSentFriendRequests.fulfilled, (state, action) => {
@@ -208,13 +206,13 @@ const friendSlice = createSlice({
         builder.addCase(acceptFriendRequest.fulfilled, (state, action) => {
            if(action?.payload?.success){
             state.receivedfriendRequests = state.receivedfriendRequests.filter((request) => request._id !== action.payload?.data?.sender);
-            state.friends.push(action.payload?.data?.sender);
+            
            }
         });
         builder.addCase(rejectFriendRequest.fulfilled, (state, action) => {
             if(action?.payload?.success){
             state.receivedfriendRequests = state.receivedfriendRequests.filter((request) => request._id !== action.payload?.data?.sender);
-            state.nonFriends.push(action.payload?.data?.sender);
+           
             }
         });
         builder.addCase(getNonFriends.fulfilled, (state, action) => {

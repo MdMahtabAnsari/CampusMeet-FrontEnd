@@ -47,7 +47,7 @@ const InprogressMeeting = () => {
     try {
       const response = await dispatch(jointMeeting(meetingId));
       if (response.payload?.success) {
-        navigate(`/meetings/join/${meetingId}`);
+        navigate(`/meetings/participant/join/${meetingId}`);
         console.log("Join meeting");
       }
     } catch (err) {
