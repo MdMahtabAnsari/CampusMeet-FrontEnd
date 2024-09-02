@@ -16,7 +16,8 @@ const store = configureStore({
         creatorMeeting: creatorMeetingReducer,
         participantMeeting: participantMeetingReducer,
         socket: socketReducer,
-    }
+    },
+    devTools: import.meta.env.MODE !== "production",
 });
 
 export default store;
