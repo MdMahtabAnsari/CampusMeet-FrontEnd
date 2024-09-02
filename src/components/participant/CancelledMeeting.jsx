@@ -6,9 +6,9 @@ import { getCancelledMeetings } from "../../store/slices/participantMeetingSlice
 const CancelledMeeting = () => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+
   const meetings = useSelector(
-    (state) => state.participantMeeting.cancelledMeetings
+    (state) => state?.participantMeeting?.cancelledMeetings
   );
 
   useEffect(() => {
@@ -18,7 +18,7 @@ const CancelledMeeting = () => {
         await dispatch(getCancelledMeetings());
         setIsLoading(false);
       } catch (err) {
-        setError(err);
+        console.log(err);
         setIsLoading(false);
       }
     };
@@ -30,7 +30,7 @@ const CancelledMeeting = () => {
   const ITEMS_PER_PAGE = 10;
   const offset = currentPage * ITEMS_PER_PAGE;
   const currentItems = meetings.slice(offset, offset + ITEMS_PER_PAGE);
-  const pageCount = Math.ceil(meetings.length / ITEMS_PER_PAGE);
+  const pageCount = Math.ceil(meetings?.length / ITEMS_PER_PAGE);
 
   const handlePageClick = ({ selected }) => {
     setCurrentPage(selected);
@@ -41,18 +41,21 @@ const CancelledMeeting = () => {
       {!isLoading && (
         <div className="min-h-screen bg-gray-100 p-6">
           <h1 className="text-3xl font-bold mb-6">Cancelled Meetings</h1>
-          {meetings.length > 0 && (
+          {meetings?.length === 0 && (
+            <p className="text-gray-700">No cancelled meetings found</p>
+          )}
+          {meetings?.length > 0 && (
             <div className="space-y-4">
               {currentItems.map((meeting) => (
                 <div
-                  key={meeting._id}
+                  key={meeting?._id}
                   className="bg-white border border-gray-300 rounded-lg shadow-md p-4"
                 >
                   <h2 className="text-xl font-semibold mb-2">
                     {meeting.title}
                   </h2>
                   <p className="text-gray-700 mb-2">
-                    <strong>Description:</strong> {meeting.description}
+                    <strong>Description:</strong> {meeting?.description}
                   </p>
                   <div className="mb-2">
                     <strong>Creator:</strong>
@@ -68,32 +71,32 @@ const CancelledMeeting = () => {
                   <div className="mb-2">
                     <strong>Participants:</strong>
                     <div className="mt-1 flex flex-wrap gap-2">
-                      {meeting.participants.map((participant) => (
+                      {meeting?.participants?.map((participant) => (
                         <div
-                          key={participant._id}
+                          key={participant?._id}
                           className="flex items-center gap-1"
                         >
                           <img
-                            src={participant.image}
-                            alt={participant.name}
+                            src={participant?.image}
+                            alt={participant?.name}
                             className="w-8 h-8 rounded-full"
                           />
-                          <p>{participant.name}</p>
+                          <p>{participant?.name}</p>
                         </div>
                       ))}
                     </div>
                   </div>
                   <p className="text-gray-700 mb-2">
-                    <strong>Status:</strong> {meeting.status}
+                    <strong>Status:</strong> {meeting?.status}
                   </p>
                   <p className="text-gray-700 mb-2">
-                    <strong>Date:</strong> {meeting.date}
+                    <strong>Date:</strong> {meeting?.date}
                   </p>
                   <p className="text-gray-700 mb-2">
-                    <strong>Start Time:</strong> {meeting.startTime}
+                    <strong>Start Time:</strong> {meeting?.startTime}
                   </p>
                   <p className="text-gray-700 mb-2">
-                    <strong>End Time:</strong> {meeting.endTime}
+                    <strong>End Time:</strong> {meeting?.endTime}
                   </p>
                 </div>
               ))}
@@ -131,11 +134,6 @@ const CancelledMeeting = () => {
       {isLoading && (
         <div className="min-h-screen bg-gray-100 flex items-center justify-center">
           <div className="loader">Loading...</div>
-        </div>
-      )}
-      {error && (
-        <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-          <p className="text-red-500 font-semibold">{error}</p>
         </div>
       )}
     </>

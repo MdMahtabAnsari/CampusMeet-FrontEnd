@@ -1,15 +1,28 @@
-import { useState } from "react"
+import { useState,useEffect } from "react"
 import CompletedMeeting from "../../components/participant/CompletedMeeting"
 import UpcomingMeeting from "../../components/participant/UpcomingMeeting"
 import InprogressMeeting from "../../components/participant/InprogressMeeting"
 import CancelledMeeting from "../../components/participant/CancelledMeeting"
+import Navbar from "../../components/Navbar"
+import { useSelector} from "react-redux"
+import { useNavigate } from "react-router-dom"
 
 function ParticipantMeetingStatus() {
+    const {isLoggedIn} = useSelector(state => state?.auth);
+    const navigate = useNavigate()
+    useEffect(() => {
+        if (!isLoggedIn) {
+            navigate('/auth/login')
+        }
+    }, [])
+
     const [meetingStatus, setMeetingStatus] = useState("upcoming")
 
 
 
     return (
+        <>
+        <Navbar />
         <div className="min-h-screen bg-gray-100 p-6 sm:p-8">
 
             <h1 className="text-3xl font-bold mb-6 text-center sm:text-left">Participant Meeting Status</h1>
@@ -57,6 +70,7 @@ function ParticipantMeetingStatus() {
             {meetingStatus === 'completed' && <CompletedMeeting />}
             {meetingStatus === 'cancelled' && <CancelledMeeting />}
         </div>
+        </>
 
 
 

@@ -6,9 +6,8 @@ import { getCompletedMeetings } from "../../store/slices/participantMeetingSlice
 const CompletedMeeting = () => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
   const meetings = useSelector(
-    (state) => state.participantMeeting.completedMeetings
+    (state) => state?.participantMeeting?.completedMeetings
   );
 
   useEffect(() => {
@@ -16,12 +15,12 @@ const CompletedMeeting = () => {
       try {
         setIsLoading(true);
         const response = await dispatch(getCompletedMeetings());
-        if (!response.payload.success) {
+        if (!response?.payload?.success) {
           throw response.payload.message;
         }
         setIsLoading(false);
       } catch (err) {
-        setError(err);
+        console.log(err);
         setIsLoading(false);
       }
     };
@@ -32,7 +31,7 @@ const CompletedMeeting = () => {
   const meetingsPerPage = 10;
 
   // Calculate the number of pages
-  const pageCount = Math.ceil(meetings.length / meetingsPerPage);
+  const pageCount = Math.ceil(meetings?.length / meetingsPerPage);
 
   // Get current meetings
   const currentMeetings = meetings.slice(
@@ -40,8 +39,8 @@ const CompletedMeeting = () => {
     (currentPage + 1) * meetingsPerPage
   );
 
-  const handlePageClick = (data) => {
-    setCurrentPage(data.selected);
+  const handlePageClick = ({ selected }) => {
+    setCurrentPage(selected);
   };
 
   return (
@@ -54,23 +53,23 @@ const CompletedMeeting = () => {
           )}
           {meetings.length > 0 && (
             <div className="space-y-4">
-              {currentMeetings.map((meeting) => (
+              {currentMeetings?.map((meeting) => (
                 <div
-                  key={meeting._id}
+                  key={meeting?._id}
                   className="bg-white border border-gray-300 rounded-lg shadow-md p-4"
                 >
                   <h2 className="text-xl font-semibold mb-2">
-                    {meeting.title}
+                    {meeting?.title}
                   </h2>
                   <p className="text-gray-700 mb-2">
-                    <strong>Description:</strong> {meeting.description}
+                    <strong>Description:</strong> {meeting?.description}
                   </p>
                   <div className="mb-2">
                     <strong>Creator:</strong>
                     <div className="mt-1 flex items-center gap-1">
                       <img
-                        src={meeting.createdBy?.image}
-                        alt={meeting.createdBy?.name}
+                        src={meeting?.createdBy?.image}
+                        alt={meeting?.createdBy?.name}
                         className="w-8 h-8 rounded-full"
                       />
                       <p>{meeting.createdBy?.name}</p>
@@ -79,32 +78,32 @@ const CompletedMeeting = () => {
                   <div className="mb-2">
                     <strong>Participants:</strong>
                     <div className="mt-1 flex flex-wrap gap-2">
-                      {meeting.participants.map((participant) => (
+                      {meeting?.participants?.map((participant) => (
                         <div
-                          key={participant._id}
+                          key={participant?._id}
                           className="flex items-center gap-1"
                         >
                           <img
-                            src={participant.image}
-                            alt={participant.name}
+                            src={participant?.image}
+                            alt={participant?.name}
                             className="w-8 h-8 rounded-full"
                           />
-                          <p>{participant.name}</p>
+                          <p>{participant?.name}</p>
                         </div>
                       ))}
                     </div>
                   </div>
                   <p className="text-gray-700 mb-2">
-                    <strong>Status:</strong> {meeting.status}
+                    <strong>Status:</strong> {meeting?.status}
                   </p>
                   <p className="text-gray-700 mb-2">
-                    <strong>Date:</strong> {meeting.date}
+                    <strong>Date:</strong> {meeting?.date}
                   </p>
                   <p className="text-gray-700 mb-2">
-                    <strong>Start Time:</strong> {meeting.startTime}
+                    <strong>Start Time:</strong> {meeting?.startTime}
                   </p>
                   <p className="text-gray-700 mb-2">
-                    <strong>End Time:</strong> {meeting.endTime}
+                    <strong>End Time:</strong> {meeting?.endTime}
                   </p>
                 </div>
               ))}
@@ -141,11 +140,6 @@ const CompletedMeeting = () => {
       {isLoading && (
         <div className="min-h-screen bg-gray-100 flex items-center justify-center">
           <div className="loader">Loading...</div>
-        </div>
-      )}
-      {error && (
-        <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-          <p className="text-red-500 font-semibold">{error}</p>
         </div>
       )}
     </>
