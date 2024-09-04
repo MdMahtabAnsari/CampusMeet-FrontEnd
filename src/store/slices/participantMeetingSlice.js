@@ -15,9 +15,9 @@ export const getUpcomingMeetings = createAsyncThunk(
     "/meetings/participant/upcoming",
     async () => {
         try{
-            toast.info("Fetching Upcoming Meetings");
+            // toast.info("Fetching Upcoming Meetings");
             const response = await instance.get(`/meetings/participant/upcoming`);
-            toast.success("Upcoming Meetings Fetched Successfully");
+            // toast.success("Upcoming Meetings Fetched Successfully");
             return response.data;
         }
         catch(error){
@@ -32,9 +32,9 @@ export const getCancelledMeetings = createAsyncThunk(
     "/meetings/participant/cancelled",
     async () => {
         try{
-            toast.info("Fetching Cancelled Meetings");
+            // toast.info("Fetching Cancelled Meetings");
             const response = await instance.get(`/meetings/participant/cancelled`);
-            toast.success("Cancelled Meetings Fetched Successfully");
+            // toast.success("Cancelled Meetings Fetched Successfully");
             return response.data;
         }
         catch(error){
@@ -49,9 +49,9 @@ export const getInProgressMeetings = createAsyncThunk(
     "/meetings/participant/in-progress",
     async () => {
         try{
-            toast.info("Fetching In Progress Meetings");
+            // toast.info("Fetching In Progress Meetings");
             const response = await instance.get(`/meetings/participant/in-progress`);
-            toast.success("In Progress Meetings Fetched Successfully");
+            // toast.success("In Progress Meetings Fetched Successfully");
             return response.data;
         }
         catch(error){
@@ -67,9 +67,9 @@ export const getCompletedMeetings = createAsyncThunk(
     "/meetings/participant/completed",
     async () => {
         try{
-            toast.info("Fetching Completed Meetings");
+            // toast.info("Fetching Completed Meetings");
             const response = await instance.get(`/meetings/participant/completed`);
-            toast.success("Completed Meetings Fetched Successfully");
+            // toast.success("Completed Meetings Fetched Successfully");
             return response.data;
         }
         catch(error){
@@ -85,9 +85,9 @@ export const jointMeeting = createAsyncThunk(
     "participantMeeting/jointMeeting",
     async (meetingId) => {
         try{
-            toast.info("Joining Meeting...");
+            // toast.info("Joining Meeting...");
             const response = await instance.get(`meetings/participants/join/${meetingId}`);
-            toast.success("Meeting Joined Successfully");
+            // toast.success("Meeting Joined Successfully");
             return response.data;
         }
         catch(error){
@@ -102,11 +102,11 @@ export const getMeetingByIdAndStatus = createAsyncThunk(
     "/meeting/getByIdAndStatus",
     async ({ meetingId, status }) => {
       try {
-        toast.info("Fetching meeting...");
+        // toast.info("Fetching meeting...");
         const response = await instance.get(
           `/meetings/participant/${status}/${meetingId}`
         );
-        toast.success("Meeting fetched successfully");
+        // toast.success("Meeting fetched successfully");
         return response.data;
       } catch (error) {
         toast.error(error?.response?.data?.message);

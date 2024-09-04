@@ -15,9 +15,9 @@ export const getFriends = createAsyncThunk(
     "/friends",
     async () => {
         try {
-            toast.info("Fetching friends...");
+            // toast.info("Fetching friends...");
             const response = await instance.get("/friends");
-            toast.success("Friends fetched successfully");
+            // toast.success("Friends fetched successfully");
             return response.data;
         }
         catch (error) {
@@ -33,9 +33,9 @@ export const unfriend = createAsyncThunk(
     "/friend/unfriend",
     async (_id) => {
         try {
-            toast.info("Unfriending...");
+            // toast.info("Unfriending...");
             const response = await instance.delete(`/friends/unfriend/${_id}`);
-            toast.success("Unfriended successfully");
+            // toast.success("Unfriended successfully");
             return response.data;
         }
         catch (error) {
@@ -51,9 +51,9 @@ export const getReceivedFriendRequests = createAsyncThunk(
     "/friendRequests/received",
     async () => {
         try {
-            toast.info("Fetching received friend requests...");
+            // toast.info("Fetching received friend requests...");
             const response = await instance.get("/friendRequests/received");
-            toast.success("Received friend requests fetched successfully");
+            // toast.success("Received friend requests fetched successfully");
             return response.data;
         }
         catch (error) {
@@ -69,9 +69,9 @@ export const sendFriendRequest = createAsyncThunk(
     "/friendRequests/send",
     async (_id) => {
         try {
-            toast.info("Sending friend request...");
+            // toast.info("Sending friend request...");
             const response = await instance.post(`/friendRequests/send/${_id}`);
-            toast.success("Friend request sent successfully");
+            // toast.success("Friend request sent successfully");
             return response.data;
         }
         catch (error) {
@@ -87,9 +87,9 @@ export const cancelFriendRequest = createAsyncThunk(
     "/friendRequests/cancel",
     async (_id) => {
         try {
-            toast.info("Cancelling friend request...");
+            // toast.info("Cancelling friend request...");
             const response = await instance.delete(`/friendRequests/cancel/${_id}`);
-            toast.success("Friend request cancelled successfully");
+            // toast.success("Friend request cancelled successfully");
             return response.data;
         }
         catch (error) {
@@ -105,9 +105,9 @@ export const getSentFriendRequests = createAsyncThunk(
     "/friendRequests/sent",
     async () => {
         try {
-            toast.info("Fetching sent friend requests...");
+            // toast.info("Fetching sent friend requests...");
             const response = await instance.get("/friendRequests/sent");
-            toast.success("Sent friend requests fetched successfully");
+            // toast.success("Sent friend requests fetched successfully");
             return response.data;
         }
         catch (error) {
@@ -153,9 +153,9 @@ export const getNonFriends = createAsyncThunk(
     "/users/all",
     async () => {
         try {
-            toast.info("Fetching non friends...");
+            // toast.info("Fetching non friends...");
             const response = await instance.get("/users/all");
-            toast.success("Non friends fetched successfully");
+            // toast.success("Non friends fetched successfully");
             console.log(response.data);
             return response.data;
         }

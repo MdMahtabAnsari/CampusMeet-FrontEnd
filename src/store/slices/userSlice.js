@@ -10,9 +10,9 @@ export const updateUser = createAsyncThunk(
     "/user/update",
     async (data) => {
         try {
-            toast.info("Updating user...");
+            // toast.info("Updating user...");
             const response = await instance.put("/users/update", data);
-            toast.success("User updated successfully");
+            // toast.success("User updated successfully");
             return response.data;
         }
         catch (error) {

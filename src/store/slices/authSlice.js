@@ -11,9 +11,9 @@ const initialState = {
 
 export const login = createAsyncThunk("/auth/login", async (data) => {
   try {
-    toast.info("Logging in...");
+    // toast.info("Logging in...");
     const response = await instance.post("/auth/signin", data);
-    toast.success("Login successful");
+    // toast.success("Login successful");
     console.log(response);
     // connect(response.data?.data?._id);
     return response.data;
@@ -25,9 +25,9 @@ export const login = createAsyncThunk("/auth/login", async (data) => {
 
 export const signUp = createAsyncThunk("/users/signup", async (data) => {
   try {
-    toast.info("Registering...");
+    // toast.info("Registering...");
     const response = await instance.post("/users/signup", data);
-    toast.success("Registration successful");
+    // toast.success("Registration successful");
     return response.data;
   } catch (error) {
     toast.error(error?.response?.data?.message);
@@ -38,9 +38,9 @@ export const signUp = createAsyncThunk("/users/signup", async (data) => {
 
 export const logout = createAsyncThunk("/auth/logout", async () => {
   try {
-    toast.info("Logging out...");
+    // toast.info("Logging out...");
     const response = await instance.delete("/auth/signout");
-    toast.success("Logout successful");
+    // toast.success("Logout successful");
     console.log(response);
     return response.data;
   } catch (error) {
@@ -52,9 +52,9 @@ export const logout = createAsyncThunk("/auth/logout", async () => {
 
 export const getUser = createAsyncThunk("/users/getUser", async () => {
   try {
-    toast.info("Fetching User...");
+    // toast.info("Fetching User...");
     const response = await instance.get("/users/me");
-    toast.success("User fetched successfully");
+    // toast.success("User fetched successfully");
     return response.data;
   } catch (error) {
     toast.error(error?.response?.data?.message);
